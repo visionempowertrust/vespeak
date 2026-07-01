@@ -88,6 +88,10 @@ function validateSubmission(fields, file) {
   if (!file.type.startsWith("audio/") && file.type !== "video/webm") throw Object.assign(new Error("The uploaded file must be audio."), { status:400 });
 }
 
+function baseMimeType(type = "") {
+  return type.split(";", 1)[0].trim().toLowerCase();
+}
+
 function requireSarvam() {
   if (!process.env.SARVAM_API_KEY) throw Object.assign(new Error("Sarvam API is not configured."), { status:503 });
 }
@@ -99,7 +103,7 @@ function requireSupabase() {
 async function sarvamSpeechToText(file, languageCode, mode) {
   requireSarvam();
   const form = new FormData();
-  form.append("file", new Blob([file.content], { type:file.type }), file.filename);
+  form.append("file", new Blob([file.content], { type:baseMimeType(file.type) }), file.filename);
   form.append("model", "saaras:v3");
   form.append("mode", mode);
   form.append("language_code", languageCode || "unknown");
@@ -131,13 +135,13 @@ async function supabaseRequest(endpoint, options = {}) {
 }
 
 function safeAudioExtension(file) {
-  return ({ "audio/webm":".webm", "video/webm":".webm", "audio/wav":".wav", "audio/x-wav":".wav", "audio/mpeg":".mp3", "audio/mp4":".m4a", "audio/ogg":".ogg" })[file.type]
+  return ({ "audio/webm":".webm", "video/webm":".webm", "audio/wav":".wav", "audio/x-wav":".wav", "audio/mpeg":".mp3", "audio/mp4":".m4a", "audio/ogg":".ogg" })[baseMimeType(file.type)]
     || path.extname(file.filename).slice(0,8) || ".audio";
 }
 
 async function uploadAudio(file, objectPath) {
   await supabaseRequest(`/storage/v1/object/${encodeURIComponent(STORAGE_BUCKET)}/${objectPath.split("/").map(encodeURIComponent).join("/")}`, {
-    method:"POST", headers:{ "Content-Type":file.type, "x-upsert":"false" }, body:file.content
+    method:"POST", headers:{ "Content-Type":baseMimeType(file.type), "x-upsert":"false" }, body:file.content
   });
 }
 
@@ -173,7 +177,7 @@ async function handleSubmit(req, res) {
       school:fields.school.trim(), context:fields.context?.trim() || "", transcript:original.transcript || "",
       english_translation:english.transcript || "", language_code:original.language_code || english.language_code || fields.languageCode || "unknown",
       sarvam_transcription_id:original.request_id || null, sarvam_translation_id:english.request_id || null,
-      audio_path:objectPath, audio_mime_type:file.type, audio_size_bytes:file.content.length
+      audio_path:objectPath, audio_mime_type:baseMimeType(file.type), audio_size_bytes:file.content.length
     });
     sendJson(res, 201, { success:true, feedback:{ id:feedback.id, transcript:feedback.transcript, englishTranslation:feedback.english_translation, languageCode:feedback.language_code } });
   } catch (error) { await removeAudio(objectPath); throw error; }
