@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#153b32">
+  <title>VE Speak — Submission Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/"><span>VE</span> Speak</a>
+    <nav><a class="active" href="/dashboard.html">◫ <span>Submissions</span></a><a href="/">＋ <span>New field note</span></a></nav>
+    <div class="side-note"><b>Voices matter.</b><p>Every field observation helps us learn and improve.</p></div>
+  </aside>
+  <main>
+    <header><div><p class="eyebrow">Field intelligence</p><h1>Audio submissions</h1><p>Listen, read, and understand what teams are seeing in the field.</p></div><a class="new-note" href="/">＋ Add field note</a></header>
+    <section class="stats" id="stats">
+      <article><span>Total submissions</span><strong id="totalCount">—</strong><i>◎</i></article>
+      <article><span>States reached</span><strong id="stateCount">—</strong><i>⌖</i></article>
+      <article><span>Languages heard</span><strong id="languageCount">—</strong><i>文</i></article>
+      <article><span>This month</span><strong id="monthCount">—</strong><i>↗</i></article>
+    </section>
+    <section class="toolbar"><div class="search">⌕ <input id="searchInput" type="search" placeholder="Search event, school, state or transcript"></div><select id="stateFilter"><option value="">All states</option></select><select id="languageFilter"><option value="">All languages</option></select></section>
+    <div class="list-head"><h2>Recent observations</h2><span id="resultCount"></span></div>
+    <section class="submission-list" id="submissionList"><div class="loading"><span></span><p>Loading field voices…</p></div></section>
+  </main>
+  <template id="submissionTemplate">
+    <article class="submission">
+      <div class="submission-top"><div class="date-tile"><b></b><span></span></div><div class="title"><h3></h3><p class="location"></p></div><span class="language-pill"></span><time></time></div>
+      <p class="context-note"></p>
+      <div class="audio-row"><button class="round-play" type="button">▶</button><div class="audio-track"><div></div></div><span class="audio-label">Original audio</span><audio preload="none"></audio></div>
+      <div class="texts"><section><div class="text-label"><span>Original transcript</span><b class="native-code"></b></div><p class="native-text"></p></section><section class="english"><div class="text-label"><span>English translation</span><button class="speak-btn" type="button">♪ Listen in English</button></div><p class="english-text"></p><audio class="tts-audio"></audio></section></div>
+    </article>
+  </template>
+  <div class="passcode-modal hidden" id="passcodeModal"><form id="passcodeForm"><div class="lock">⌁</div><p class="eyebrow">Private dashboard</p><h2>Enter dashboard passcode</h2><p>This view contains field recordings and transcripts.</p><input id="passcodeInput" type="password" autocomplete="current-password" placeholder="Passcode" required><button>Open dashboard</button><small id="passcodeError"></small></form></div>
+  <script src="/dashboard.js"></script>
+</body></html>
