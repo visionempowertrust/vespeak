@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f1e8">
+  <title>VE Speak — Field Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <header class="topbar"><a class="brand" href="#"><span class="brand-mark">VE</span><span>Speak</span></a><div class="secure"><span></span> Secure field capture</div></header>
+  <main>
+    <section class="intro"><div class="eyebrow"><span>✦</span> Voices from the field</div><h1>Every observation<br><em>deserves to be heard.</em></h1><p>Capture what happened, in the language it happened. Your voice note will be transcribed automatically.</p></section>
+    <section class="card">
+      <div class="card-head"><div><span class="step">01</span><h2>Tell us about the session</h2></div><p>All fields marked <b>*</b> are required</p></div>
+      <form id="feedbackForm">
+        <div class="grid">
+          <label><span>Event date *</span><input type="date" name="eventDate" required></label>
+          <label><span>Event name *</span><input type="text" name="eventName" placeholder="e.g. Science Discovery Workshop" maxlength="120" required></label>
+          <label><span>State *</span><select name="state" required><option value="">Choose a state</option></select></label>
+          <label><span>School / centre *</span><input type="text" name="school" placeholder="Enter the school or centre name" maxlength="160" required></label>
+        </div>
+        <div class="divider"></div>
+        <div class="section-title"><span class="step">02</span><div><h2>Share your observation</h2><p>Speak naturally in your preferred language</p></div></div>
+        <div class="audio-panel" id="audioPanel">
+          <div class="recorder-idle" id="idleState"><button class="record-btn" id="recordBtn" type="button" aria-label="Start recording">●</button><div><h3>Tap to start recording</h3><p>Up to 30 seconds · Speak clearly and naturally</p></div></div>
+          <div class="recorder-active hidden" id="activeState"><div class="recording-dot"></div><div class="timer" id="timer">00:00</div><div class="wave" id="wave"></div><button class="stop-btn" id="stopBtn" type="button">■ &nbsp; Stop recording</button></div>
+          <div class="recorder-ready hidden" id="readyState"><button class="play-btn" id="playBtn" type="button" aria-label="Play recording">▶</button><div class="ready-copy"><h3>Voice note ready</h3><p id="audioMeta">Recorded just now</p></div><button class="text-btn" id="discardBtn" type="button">Record again</button></div>
+          <div class="upload-row"><span>or</span><label class="upload-btn">↑ &nbsp; Upload audio<input id="fileInput" type="file" accept="audio/*,.webm" hidden></label><small>MP3, WAV, M4A, OGG or WebM</small></div>
+        </div>
+        <div class="options-row"><label><span>Spoken language</span><select name="languageCode" id="languageCode"></select></label><label class="context"><span>What is this audio about? <i>Optional</i></span><textarea name="context" rows="3" maxlength="500" placeholder="Add a quick note to help others understand the context..."></textarea></label></div>
+        <div class="notice">⌁ <span>Your audio is sent securely to Sarvam AI for transcription and stored with this feedback.</span></div>
+        <button class="submit-btn" id="submitBtn" type="submit"><span>Submit field note</span><b>→</b></button><p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+  <div class="success-modal hidden" id="successModal" role="dialog" aria-modal="true" aria-labelledby="successTitle"><div class="success-box"><div class="check">✓</div><p class="eyebrow">Field note received</p><h2 id="successTitle">Thank you for speaking up.</h2><p>Your observation has been transcribed and saved.</p><div class="transcript"><span>Transcript</span><blockquote id="transcript"></blockquote><small id="detectedLanguage"></small></div><button id="newEntryBtn" type="button">Add another observation</button></div></div>
+  <script src="/app.js"></script>
+</body></html>
